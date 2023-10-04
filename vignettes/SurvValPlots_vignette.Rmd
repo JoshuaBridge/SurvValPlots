@@ -1,0 +1,109 @@
+---
+title: "SurvValPlots Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SurvValPlots Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+There are three main areas of clinical prediction model performance: discrimination, calibration, and net benefit. These can be assessed using receiver operating characteristic (ROC) curves, calibration curves, and decision curves. For ROC and calibration curves, it is important to also view confidence intervals or bands. Survival models often have censored data which makes ROC and calibration curves more difficult.
+
+Previous packages either allow for right-censoring or give confidence intervals; however, there is not yet an easy method for both. This package was created to build upon previous methods and to fill the gap in current tools. 
+
+```{r}
+library(SurvValPlots)
+```
+
+## Example data
+
+We will use two data sets from the survival (Therneau 2023) package to demonstrate the functions in survPlots
+
+- Rotterdam - 2,982 participants with breast cancer in the Rotterdam tumour bank (Royston and Altman 2013).
+
+- GBSG - 686 patients from the German Breast Cancer Study Group (Royston and Altman 2013).
+
+A simple model will be developed using the Rotterdam data and the GBSG data will be used for external validation.
+
+## Sample size
+
+The function `calcSS` calculates the minimum required sample size for the survival model development. It is a wrapper for `pmsampsize::pmsampsize` (Ensor, Martin, and Riley 2022) with the added functionality of the $R^2$ value being estimated from the event rate (Riley, Van Calster, and Collins 2020) and allowing an imprecision in the event rate and mean follow-up time to be specified.
+
+Below is an example with an event rate of 10% at the prediction time of 3 years with 5 parameters used in the model and a mean follow-up time of 10 years. We allow for an imprecision of 20% in the rate and mean follow-up time. This gives a minimum sample size of 331 participants.
+
+```{r}
+calcSS(
+  rate=0.1,
+  time=3,
+  parameters=5,
+  meanfollowup = 10,
+  imprecision = 0.2
+)
+```
+
+## Model
+
+To demonstrate the package, we will develop a Cox proportional hazards model using `survival::coxph`. This is the same model as used by Royston and Altman (Royston and Altman 2013).
+
+```{r}
+library(survival)
+mod = coxph(Surv(rtime, recur)~size+meno+hormon+age+nodes+pgr+er, 
+            data=rotterdam,
+            x=TRUE)
+```
+
+## ROC curves
+
+ROC curves are one of the most reported visualisations of model performance. 
+
+```{r, fig.width=6, fig.height=6}
+survPlots(mod, 
+          time=365.25*3, 
+          df=rotterdam,
+          eventVar = "recur",
+          timeVar = "rtime",
+          plotType = "ROC")
+```
+
+## Calibration curves
+
+Calibration curves are a vital, but overlooked performance metric (Van Calster et al. 2019). There are several packages already available in R for constructing calibration curves (Harrell Jr 2023; Sadatsafavi, Safari, and Lee 2023; Van Calster et al. 2016; Gerds 2023). The calibration curve in `pec` accounts for the right censored data using the jackknife pseudo-values (Gerds 2023); however, no confidence interval or band is displayed. Confidence intervals and bands can be useful to show potential variation in the calibration. The calibration curve in `CalibrationCurves` does have confidence bands, but does not account for censoring.
+
+The calibration curve in `SurvValPlots` uses the jackknife pseudo-values to account for right-censoring and also uses loess smoothing with 95% confidence bands.
+
+```{r, fig.width=6, fig.height=6}
+survPlots(mod, 
+          time=365.25*3, 
+          df=rotterdam,
+          eventVar = "recur",
+          timeVar = "rtime",
+          plotType = "Calibration")
+```
+
+## Decision curves
+
+The option `plotType="Decision"` calls the `dcurves` package, which already accounts for right-censoring. Decision curves are included here for completeness and to be used with the `plotType="All"` option below.
+
+```{r, fig.width=6, fig.height=6}
+survPlots(mod, 
+          time=365.25*3, 
+          df=rotterdam,
+          eventVar = "recur",
+          timeVar = "rtime",
+          plotType = "Decision")
+```
+
+## All
+
+Setting the option `plotType="All"` plots all three of the graphs into one panel. This allows an easy visualisation of overall discrimination, calibration, and net benefit at a chosen time point with a single, short command. 
+
+```{r, fig.width=6, fig.height=6}
+survPlots(mod, 
+          time=365.25*3, 
+          df=rotterdam,
+          eventVar = "recur",
+          timeVar = "rtime",
+          plotType = "All")
+```

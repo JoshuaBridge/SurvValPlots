@@ -1,4 +1,4 @@
-#' Wrapper for pmsampsize with r-squared estimation
+#' Wrapper for pmsampsize with R-squared estimation and allowing for imprecision in the estimate of rate and mean follow-up.
 #'
 #' @import pmsampsize
 #'
