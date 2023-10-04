@@ -1,0 +1,16 @@
+Package: SurvValPlots
+Type: Package
+Title: Tools for survival ROC, calibration, and decision curves
+Version: 0.1.0
+Authors@R: person("Joshua", "Bridge", email = "joshuabridge@vivaldi.net",
+  role = c("aut", "cre"))
+Description: Provides tools for validating prediction models. 
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports: dcurves, ggplot2, pROC, pmsampsize, prodlim, survival, ggpubr, scales
+RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
