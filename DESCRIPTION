@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: person("Joshua", "Bridge", email = "joshuabridge@vivaldi.net",
   role = c("aut", "cre"))
 Description: Provides tools for validating prediction models. 
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: dcurves, ggplot2, pROC, pmsampsize, prodlim, survival, ggpubr, scales
