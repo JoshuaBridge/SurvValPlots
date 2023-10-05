@@ -78,6 +78,35 @@
 <div class="page-header"><h1 id="survvalplots-">SurvValPlots <img src="reference/figures/logo.png" align="right" height="139" alt=""><a class="anchor" aria-label="anchor" href="#survvalplots-"></a>
 </h1></div>
 <p>Tools for creating ROC, calibration, and decision curves for survival models. Jackknife pseudo-values are used to account for right-censoring. Confidence bands are provided for ROC and calibration curves.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><code>SurvValPlots</code> can be installed from github using <code>devtools</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JoshuaBridge/SurvValPlots"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>Here is a simple example using the Rotterdam breast cancer data set in the <code>survival</code> package.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span> <span class="co"># Load the survival package</span></span>
+<span><span class="va">mod</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span> <span class="co"># Using a Cox PH model</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">rtime</span>, <span class="va">recur</span><span class="op">)</span><span class="op">~</span> <span class="va">size</span><span class="op">+</span><span class="va">meno</span><span class="op">+</span><span class="va">hormon</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">nodes</span><span class="op">+</span><span class="va">pgr</span><span class="op">+</span><span class="va">er</span>,                    </span>
+<span>            data<span class="op">=</span><span class="va">rotterdam</span>, <span class="co"># Using the Rotterdam data set</span></span>
+<span>            x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Return the x matrix</span></span></code></pre></div>
+<p>Then the ROC, calibration, and decision curves can be displayed using the <code>SurvValPlots</code> package.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">SurvValPlots</span><span class="op">)</span> <span class="co"># Load the SurvValPlots package</span></span>
+<span><span class="fu"><a href="reference/survPlots.html">survPlots</a></span><span class="op">(</span><span class="va">mod</span>, <span class="co"># The model from above</span></span>
+<span>          time<span class="op">=</span><span class="fl">365.25</span><span class="op">*</span><span class="fl">3</span>, <span class="co"># Predicting at 3 years</span></span>
+<span>          df<span class="op">=</span><span class="va">rotterdam</span>, <span class="co"># Using the Rotterdam data set</span></span>
+<span>          eventVar <span class="op">=</span> <span class="st">"recur"</span>, <span class="co"># The name of the event variable</span></span>
+<span>          timeVar <span class="op">=</span> <span class="st">"rtime"</span>, <span class="co"># The name of the time variable</span></span>
+<span>          plotType <span class="op">=</span> <span class="st">"All"</span><span class="op">)</span> <span class="co"># Which plots to display</span></span></code></pre></div>
+</div>
 </div>
   </div>
 

@@ -13,8 +13,8 @@ survPlots(
   plotType = "ROC",
   xlim = c(0, 1),
   ylim = c(0, 1),
-  netInterventions = F,
-  colour = "black"
+  colour = "black",
+  harm = 0
 )
 }
 \arguments{
@@ -34,9 +34,9 @@ survPlots(
 
 \item{ylim}{Limit of the y-axis for "Calibration"}
 
-\item{netInterventions}{True or False to show net interventions for "Decision"}
-
 \item{colour}{Colour of the plot line}
+
+\item{harm}{Harm of the model for the decision curve}
 }
 \value{
 GGPlot object

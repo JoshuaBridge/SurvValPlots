@@ -11,7 +11,7 @@ vignette: >
 
 There are three main areas of clinical prediction model performance: discrimination, calibration, and net benefit. These can be assessed using receiver operating characteristic (ROC) curves, calibration curves, and decision curves. For ROC and calibration curves, it is important to also view confidence intervals or bands. Survival models often have censored data which makes ROC and calibration curves more difficult.
 
-Previous packages either allow for right-censoring or give confidence intervals; however, there is not yet an easy method for both. This package was created to build upon previous methods and to fill the gap in current tools. 
+Previous packages either allow for right-censoring or give confidence intervals; however, there is not yet an easy method for both. This package was created to build upon previous methods and to fill the gap in current tools.
 
 ```{r}
 library(SurvValPlots)
@@ -21,9 +21,9 @@ library(SurvValPlots)
 
 We will use two data sets from the survival (Therneau 2023) package to demonstrate the functions in survPlots
 
-- Rotterdam - 2,982 participants with breast cancer in the Rotterdam tumour bank (Royston and Altman 2013).
+-   Rotterdam - 2,982 participants with breast cancer in the Rotterdam tumour bank (Royston and Altman 2013).
 
-- GBSG - 686 patients from the German Breast Cancer Study Group (Royston and Altman 2013).
+-   GBSG - 686 patients from the German Breast Cancer Study Group (Royston and Altman 2013).
 
 A simple model will be developed using the Rotterdam data and the GBSG data will be used for external validation.
 
@@ -56,7 +56,7 @@ mod = coxph(Surv(rtime, recur)~size+meno+hormon+age+nodes+pgr+er,
 
 ## ROC curves
 
-ROC curves are one of the most reported visualisations of model performance. 
+ROC curves are one of the most reported visualisations of model performance.
 
 ```{r, fig.width=6, fig.height=6}
 survPlots(mod, 
@@ -84,9 +84,25 @@ survPlots(mod,
 
 ## Decision curves
 
-The option `plotType="Decision"` calls the `dcurves` package, which already accounts for right-censoring. Decision curves are included here for completeness and to be used with the `plotType="All"` option below.
+The net benefit of a model can be define as
 
-```{r, fig.width=6, fig.height=6}
+$$
+NB = \frac{TP}{n}-\frac{FP}{n}\left(\frac{p}{1-p}\right)-H,
+$$
+
+where
+
+-   $TP$ is the number of true positives
+-   $FP$ is the number of false negatives
+-   $n$ is the total number of observations
+-   $p$ is the chosen probability threshold
+-   $H$ is the harm of the model
+
+The harm of a model can be estimated in terms of how many patients the clinician is willing to put through the test to catch one positive case ($N_p$), with the harm being $H=1/N_p$.
+
+The net benefit can then be plotted across a range of clinically relevant probability thresholds. The net benefit of treating all or no patients as having the disease or condition can also be plotted for reference.
+
+```{r, fig.width=6, fig.height=4}
 survPlots(mod, 
           time=365.25*3, 
           df=rotterdam,
@@ -97,7 +113,7 @@ survPlots(mod,
 
 ## All
 
-Setting the option `plotType="All"` plots all three of the graphs into one panel. This allows an easy visualisation of overall discrimination, calibration, and net benefit at a chosen time point with a single, short command. 
+Setting the option `plotType="All"` plots all three of the graphs into one panel. This allows an easy visualisation of overall discrimination, calibration, and net benefit at a chosen time point with a single, short command.
 
 ```{r, fig.width=6, fig.height=6}
 survPlots(mod, 

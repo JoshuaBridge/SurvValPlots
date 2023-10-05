@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcSS.R
 \name{calcSS}
 \alias{calcSS}
-\title{Wrapper for pmsampsize with r-squared estimation}
+\title{Wrapper for pmsampsize with R-squared estimation and allowing for imprecision in the estimate of rate and mean follow-up.}
 \usage{
 calcSS(rate, time, parameters, meanfollowup, imprecision = 0.2)
 }
@@ -21,7 +21,7 @@ calcSS(rate, time, parameters, meanfollowup, imprecision = 0.2)
 GGPlot object
 }
 \description{
-Wrapper for pmsampsize with r-squared estimation
+Wrapper for pmsampsize with R-squared estimation and allowing for imprecision in the estimate of rate and mean follow-up.
 }
 \examples{
 calcSS(

@@ -215,10 +215,35 @@ smoothing with 95% confidence bands.</p>
 <div class="section level2">
 <h2 id="decision-curves">Decision curves<a class="anchor" aria-label="anchor" href="#decision-curves"></a>
 </h2>
-<p>The option <code>plotType="Decision"</code> calls the
-<code>dcurves</code> package, which already accounts for
-right-censoring. Decision curves are included here for completeness and
-to be used with the <code>plotType="All"</code> option below.</p>
+<p>The net benefit of a model can be define as</p>
+<p><span class="math display">\[
+NB = \frac{TP}{n}-\frac{FP}{n}\left(\frac{p}{1-p}\right)-H,
+\]</span></p>
+<p>where</p>
+<ul>
+<li>
+<span class="math inline">\(TP\)</span> is the number of true
+positives</li>
+<li>
+<span class="math inline">\(FP\)</span> is the number of false
+negatives</li>
+<li>
+<span class="math inline">\(n\)</span> is the total number of
+observations</li>
+<li>
+<span class="math inline">\(p\)</span> is the chosen probability
+threshold</li>
+<li>
+<span class="math inline">\(H\)</span> is the harm of the model</li>
+</ul>
+<p>The harm of a model can be estimated in terms of how many patients
+the clinician is willing to put through the test to catch one positive
+case (<span class="math inline">\(N_p\)</span>), with the harm being
+<span class="math inline">\(H=1/N_p\)</span>.</p>
+<p>The net benefit can then be plotted across a range of clinically
+relevant probability thresholds. The net benefit of treating all or no
+patients as having the disease or condition can also be plotted for
+reference.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/survPlots.html">survPlots</a></span><span class="op">(</span><span class="va">mod</span>, </span>
 <span>          time<span class="op">=</span><span class="fl">365.25</span><span class="op">*</span><span class="fl">3</span>, </span>
@@ -226,7 +251,8 @@ to be used with the <code>plotType="All"</code> option below.</p>
 <span>          eventVar <span class="op">=</span> <span class="st">"recur"</span>,</span>
 <span>          timeVar <span class="op">=</span> <span class="st">"rtime"</span>,</span>
 <span>          plotType <span class="op">=</span> <span class="st">"Decision"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Printing with `plot(x, type = 'net_benefit', smooth = FALSE, show_ggplot_code = FALSE)`</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values (`geom_line()`).</span></span>
+<span><span class="co">## Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="SurvValPlots_vignette_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -248,7 +274,8 @@ a single, short command.</p>
 <pre><code><span><span class="co">## Scale for <span style="color: #00BB00;">x</span> is already present.</span></span>
 <span><span class="co">## Adding another scale for <span style="color: #00BB00;">x</span>, which will replace the existing scale.</span></span>
 <span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 1 rows containing non-finite values (`stat_smooth()`).</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values (`geom_line()`).</span></span>
+<span><span class="co">## Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="SurvValPlots_vignette_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
 </div>
   </div>
