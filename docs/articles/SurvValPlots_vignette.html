@@ -166,14 +166,31 @@ as used by Royston and Altman (Royston and Altman 2013).</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span><span class="va">mod</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">rtime</span>, <span class="va">recur</span><span class="op">)</span><span class="op">~</span><span class="va">size</span><span class="op">+</span><span class="va">meno</span><span class="op">+</span><span class="va">hormon</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">nodes</span><span class="op">+</span><span class="va">pgr</span><span class="op">+</span><span class="va">er</span>, </span>
 <span>            data<span class="op">=</span><span class="va">rotterdam</span>,</span>
-<span>            x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>            x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">mod</span></span></code></pre></div>
+<pre><code><span><span class="co">## Call:</span></span>
+<span><span class="co">## coxph(formula = Surv(rtime, recur) ~ size + meno + hormon + age + </span></span>
+<span><span class="co">##     nodes + pgr + er, data = rotterdam, x = TRUE)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##                 coef  exp(coef)   se(coef)      z        p</span></span>
+<span><span class="co">## size20-50  3.893e-01  1.476e+00  5.795e-02  6.719 1.83e-11</span></span>
+<span><span class="co">## size&gt;50    6.849e-01  1.984e+00  8.741e-02  7.835 4.68e-15</span></span>
+<span><span class="co">## meno       2.307e-01  1.259e+00  8.804e-02  2.620 0.008788</span></span>
+<span><span class="co">## hormon    -7.450e-02  9.282e-01  8.265e-02 -0.901 0.367388</span></span>
+<span><span class="co">## age       -1.315e-02  9.869e-01  3.465e-03 -3.795 0.000148</span></span>
+<span><span class="co">## nodes      7.734e-02  1.080e+00  4.522e-03 17.105  &lt; 2e-16</span></span>
+<span><span class="co">## pgr       -2.233e-04  9.998e-01  1.069e-04 -2.089 0.036680</span></span>
+<span><span class="co">## er        -3.588e-05  1.000e+00  1.038e-04 -0.346 0.729477</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Likelihood ratio test=437.7  on 8 df, p=&lt; 2.2e-16</span></span>
+<span><span class="co">## n= 2982, number of events= 1518</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="roc-curves">ROC curves<a class="anchor" aria-label="anchor" href="#roc-curves"></a>
 </h2>
 <p>ROC curves are one of the most reported visualisations of model
 performance.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/survPlots.html">survPlots</a></span><span class="op">(</span><span class="va">mod</span>, </span>
 <span>          time<span class="op">=</span><span class="fl">365.25</span><span class="op">*</span><span class="fl">3</span>, </span>
 <span>          df<span class="op">=</span><span class="va">rotterdam</span>,</span>
@@ -202,7 +219,7 @@ bands, but does not account for censoring.</p>
 <p>The calibration curve in <code>SurvValPlots</code> uses the jackknife
 pseudo-values to account for right-censoring and also uses loess
 smoothing with 95% confidence bands.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/survPlots.html">survPlots</a></span><span class="op">(</span><span class="va">mod</span>, </span>
 <span>          time<span class="op">=</span><span class="fl">365.25</span><span class="op">*</span><span class="fl">3</span>, </span>
 <span>          df<span class="op">=</span><span class="va">rotterdam</span>,</span>
@@ -244,7 +261,7 @@ case (<span class="math inline">\(N_p\)</span>), with the harm being
 relevant probability thresholds. The net benefit of treating all or no
 patients as having the disease or condition can also be plotted for
 reference.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/survPlots.html">survPlots</a></span><span class="op">(</span><span class="va">mod</span>, </span>
 <span>          time<span class="op">=</span><span class="fl">365.25</span><span class="op">*</span><span class="fl">3</span>, </span>
 <span>          df<span class="op">=</span><span class="va">rotterdam</span>,</span>
@@ -262,7 +279,7 @@ reference.</p>
 graphs into one panel. This allows an easy visualisation of overall
 discrimination, calibration, and net benefit at a chosen time point with
 a single, short command.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/survPlots.html">survPlots</a></span><span class="op">(</span><span class="va">mod</span>, </span>
 <span>          time<span class="op">=</span><span class="fl">365.25</span><span class="op">*</span><span class="fl">3</span>, </span>
 <span>          df<span class="op">=</span><span class="va">rotterdam</span>,</span>
@@ -277,6 +294,95 @@ a single, short command.</p>
 <pre><code><span><span class="co">## Warning: Removed 1 row containing missing values (`geom_line()`).</span></span>
 <span><span class="co">## Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="SurvValPlots_vignette_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
+</div>
+<div class="section level2">
+<h2 id="more-complex-models">More complex models<a class="anchor" aria-label="anchor" href="#more-complex-models"></a>
+</h2>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mfp</span><span class="op">)</span></span>
+<span><span class="va">mod</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/mfp/man/mfp.html" class="external-link">mfp</a></span><span class="op">(</span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">rtime</span>, <span class="va">recur</span><span class="op">)</span> <span class="op">~</span> </span>
+<span>            <span class="va">size</span><span class="op">+</span></span>
+<span>            <span class="va">meno</span><span class="op">+</span></span>
+<span>            <span class="va">hormon</span><span class="op">+</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/mfp/man/fp.html" class="external-link">fp</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">+</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/mfp/man/fp.html" class="external-link">fp</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">)</span><span class="op">+</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/mfp/man/fp.html" class="external-link">fp</a></span><span class="op">(</span><span class="va">pgr</span><span class="op">)</span><span class="op">+</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/mfp/man/fp.html" class="external-link">fp</a></span><span class="op">(</span><span class="va">er</span><span class="op">)</span>,</span>
+<span>     data<span class="op">=</span><span class="va">rotterdam</span>, family<span class="op">=</span><span class="va">cox</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Call:</span></span>
+<span><span class="co">## coxph(formula = Surv(rtime, recur) ~ I(((nodes + 1)/10)^1) + </span></span>
+<span><span class="co">##     I(((nodes + 1)/10)^1 * log(((nodes + 1)/10))) + size + I((age/100)^1) + </span></span>
+<span><span class="co">##     meno + log(((pgr + 1)/100)) + hormon + I(((er + 1)/100)^1), </span></span>
+<span><span class="co">##     data = rotterdam)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   n= 2982, number of events= 1518 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##                                                    coef exp(coef)  se(coef)</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1)                          1.826226  6.210403  0.107358</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1 * log(((nodes + 1)/10))) -1.214831  0.296760  0.120093</span></span>
+<span><span class="co">## size20-50                                      0.285896  1.330953  0.058685</span></span>
+<span><span class="co">## size&gt;50                                        0.490148  1.632558  0.088664</span></span>
+<span><span class="co">## I((age/100)^1)                                -1.306615  0.270735  0.346509</span></span>
+<span><span class="co">## meno                                           0.226782  1.254556  0.089468</span></span>
+<span><span class="co">## log(((pgr + 1)/100))                          -0.041355  0.959488  0.012388</span></span>
+<span><span class="co">## hormon                                        -0.322772  0.724139  0.085164</span></span>
+<span><span class="co">## I(((er + 1)/100)^1)                           -0.001214  0.998786  0.010190</span></span>
+<span><span class="co">##                                                     z Pr(&gt;|z|)    </span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1)                          17.011  &lt; 2e-16 ***</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1 * log(((nodes + 1)/10))) -10.116  &lt; 2e-16 ***</span></span>
+<span><span class="co">## size20-50                                       4.872 1.11e-06 ***</span></span>
+<span><span class="co">## size&gt;50                                         5.528 3.24e-08 ***</span></span>
+<span><span class="co">## I((age/100)^1)                                 -3.771 0.000163 ***</span></span>
+<span><span class="co">## meno                                            2.535 0.011252 *  </span></span>
+<span><span class="co">## log(((pgr + 1)/100))                           -3.338 0.000843 ***</span></span>
+<span><span class="co">## hormon                                         -3.790 0.000151 ***</span></span>
+<span><span class="co">## I(((er + 1)/100)^1)                            -0.119 0.905129    </span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##                                               exp(coef) exp(-coef) lower .95</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1)                            6.2104     0.1610    5.0320</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1 * log(((nodes + 1)/10)))    0.2968     3.3697    0.2345</span></span>
+<span><span class="co">## size20-50                                        1.3310     0.7513    1.1863</span></span>
+<span><span class="co">## size&gt;50                                          1.6326     0.6125    1.3721</span></span>
+<span><span class="co">## I((age/100)^1)                                   0.2707     3.6937    0.1373</span></span>
+<span><span class="co">## meno                                             1.2546     0.7971    1.0528</span></span>
+<span><span class="co">## log(((pgr + 1)/100))                             0.9595     1.0422    0.9365</span></span>
+<span><span class="co">## hormon                                           0.7241     1.3810    0.6128</span></span>
+<span><span class="co">## I(((er + 1)/100)^1)                              0.9988     1.0012    0.9790</span></span>
+<span><span class="co">##                                               upper .95</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1)                            7.6648</span></span>
+<span><span class="co">## I(((nodes + 1)/10)^1 * log(((nodes + 1)/10)))    0.3755</span></span>
+<span><span class="co">## size20-50                                        1.4932</span></span>
+<span><span class="co">## size&gt;50                                          1.9424</span></span>
+<span><span class="co">## I((age/100)^1)                                   0.5339</span></span>
+<span><span class="co">## meno                                             1.4950</span></span>
+<span><span class="co">## log(((pgr + 1)/100))                             0.9831</span></span>
+<span><span class="co">## hormon                                           0.8557</span></span>
+<span><span class="co">## I(((er + 1)/100)^1)                              1.0189</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Concordance= 0.68  (se = 0.007 )</span></span>
+<span><span class="co">## Likelihood ratio test= 559.1  on 9 df,   p=&lt;2e-16</span></span>
+<span><span class="co">## Wald test            = 617.8  on 9 df,   p=&lt;2e-16</span></span>
+<span><span class="co">## Score (logrank) test = 684.6  on 9 df,   p=&lt;2e-16</span></span></code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/survPlots.html">survPlots</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="va">mod</span>,</span>
+<span>  time <span class="op">=</span> <span class="fl">3</span><span class="op">*</span><span class="fl">365.25</span>,</span>
+<span>  df <span class="op">=</span> <span class="va">rotterdam</span>,</span>
+<span>  eventVar <span class="op">=</span> <span class="st">"recur"</span>,</span>
+<span>  timeVar <span class="op">=</span> <span class="st">"rtime"</span>,</span>
+<span>  plotType<span class="op">=</span><span class="st">"All"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Setting levels: control = 0, case = 1</span></span></code></pre>
+<pre><code><span><span class="co">## Setting direction: controls &lt; cases</span></span></code></pre>
+<pre><code><span><span class="co">## Scale for <span style="color: #00BB00;">x</span> is already present.</span></span>
+<span><span class="co">## Adding another scale for <span style="color: #00BB00;">x</span>, which will replace the existing scale.</span></span>
+<span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values (`geom_line()`).</span></span>
+<span><span class="co">## Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre>
+<p><img src="SurvValPlots_vignette_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
   </div>
 

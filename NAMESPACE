@@ -2,7 +2,6 @@
 
 export(calcSS)
 export(survPlots)
-import(dcurves)
 import(ggplot2)
 import(pROC)
 import(pmsampsize)

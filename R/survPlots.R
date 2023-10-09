@@ -5,7 +5,6 @@ globalVariables(c("update", "predict", "x", "lower", "upper", "na.omit"))
 #' @import survival
 #' @import ggplot2
 #' @import prodlim
-#' @import dcurves
 #' @importFrom scales oob_keep
 #' @importFrom ggpubr ggarrange
 #'
@@ -70,6 +69,12 @@ survPlots= function(model,
                     ylim=c(0,1),
                     colour="black",
                     harm=0){
+
+  df[as.character(model$terms[[2]][[2]])] = df[timeVar]
+  df[as.character(model$terms[[2]][[3]])] = df[eventVar]
+
+  timeVar = as.character(model$terms[[2]][[2]])
+  eventVar = as.character(model$terms[[2]][[3]])
 
   # Estimating the expected event status for right censored patients
   # Based on code from `pec`

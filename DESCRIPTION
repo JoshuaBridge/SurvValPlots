@@ -8,9 +8,10 @@ Description: Provides tools for validating prediction models.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: dcurves, ggplot2, pROC, pmsampsize, prodlim, survival, ggpubr, scales
+Imports: ggplot2, pROC, pmsampsize, prodlim, survival, ggpubr, scales
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    mfp
 VignetteBuilder: knitr

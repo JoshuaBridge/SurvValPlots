@@ -5,6 +5,7 @@ vignette: >
   %\VignetteIndexEntry{SurvValPlots Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{mfp}
 ---
 
 ## Introduction
@@ -52,6 +53,7 @@ library(survival)
 mod = coxph(Surv(rtime, recur)~size+meno+hormon+age+nodes+pgr+er, 
             data=rotterdam,
             x=TRUE)
+mod
 ```
 
 ## ROC curves
@@ -122,4 +124,31 @@ survPlots(mod,
           eventVar = "recur",
           timeVar = "rtime",
           plotType = "All")
+```
+
+## More complex models
+
+```{r}
+library(mfp)
+mod <-mfp(
+          Surv(rtime, recur) ~ 
+            size+
+            meno+
+            hormon+
+            fp(age)+
+            fp(nodes)+
+            fp(pgr)+
+            fp(er),
+     data=rotterdam, family=cox)
+summary(mod)
+```
+
+```{r}
+survPlots(
+  model = mod,
+  time = 3*365.25,
+  df = rotterdam,
+  eventVar = "recur",
+  timeVar = "rtime",
+  plotType="All")
 ```
