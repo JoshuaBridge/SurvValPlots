@@ -28,22 +28,6 @@ We will use two data sets from the survival (Therneau 2023) package to demonstra
 
 A simple model will be developed using the Rotterdam data and the GBSG data will be used for external validation.
 
-## Sample size
-
-The function `calcSS` calculates the minimum required sample size for the survival model development. It is a wrapper for `pmsampsize::pmsampsize` (Ensor, Martin, and Riley 2022) with the added functionality of the $R^2$ value being estimated from the event rate (Riley, Van Calster, and Collins 2020) and allowing an imprecision in the event rate and mean follow-up time to be specified.
-
-Below is an example with an event rate of 10% at the prediction time of 3 years with 5 parameters used in the model and a mean follow-up time of 10 years. We allow for an imprecision of 20% in the rate and mean follow-up time. This gives a minimum sample size of 331 participants.
-
-```{r}
-calcSS(
-  rate=0.1,
-  time=3,
-  parameters=5,
-  meanfollowup = 10,
-  imprecision = 0.2
-)
-```
-
 ## Model
 
 To demonstrate the package, we will develop a Cox proportional hazards model using `survival::coxph`. This is the same model as used by Royston and Altman (Royston and Altman 2013).
