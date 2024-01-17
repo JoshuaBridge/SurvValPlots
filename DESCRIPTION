@@ -1,10 +1,10 @@
 Package: SurvValPlots
 Type: Package
 Title: Tools for Survival ROC, Calibration, and Decision Curves
-Version: 0.2.0
+Version: 2.0.0
 Authors@R: person("Joshua", "Bridge", email = "joshuabridge@vivaldi.net",
   role = c("aut", "cre", "cph"))
-Description: Provides tools for validating survival models including survival ROC, calibration, and decision curves. 
+Description: Provides tools for plotting right-censored survival model performance including receiver operating characteristic, calibration, and decision curves. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
